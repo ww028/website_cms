@@ -1,14 +1,13 @@
 // import React from 'react';
 import React, { Component, Fragment } from 'react';
 import { Provider } from 'react-redux';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Route } from 'react-router-dom';
 import store from '../store';
 import MyHeader from '../components/MyHeader';
-import Home from '../pages/home';
-import Detail from '../pages/detail';
-import Login from '../pages/login';
+import AsideBar from '../components/AsideBar';
 
 import { TransitionGroup, CSSTransition } from "react-transition-group";
+import RouterConfig from './routerConfig'
 
 class App extends Component {
   render() {
@@ -17,27 +16,26 @@ class App extends Component {
         <Fragment>
           <BrowserRouter>
             <MyHeader />
-            <Route render={({ location }) => {
-              console.log(location)
-              return (
-                <TransitionGroup>
-                  <CSSTransition
-                    key={location.key}
-                    classNames='fade'
-                    timeout={300}
-                  >
-                    <Switch>
-                      <Route path='/' exact component={Home}></Route>
-                      <Route path='/login' exact component={Login}></Route>
-                      <Route path='/detail' exact render={(props) => {
-                        return <Detail {...props} name={'cedric'} />
-                      }}></Route>
-                    </Switch>
-                  </CSSTransition>
-                </TransitionGroup>
-              )
-            }}>
-            </Route>
+            <div className='page_main'>
+              <AsideBar />
+              <div className='page_content'>
+                <Route render={({ location }) => {
+                  console.log(location)
+                  return (
+                    <TransitionGroup>
+                      <CSSTransition
+                        key={location.key}
+                        classNames='fade'
+                        timeout={300}
+                      >
+                        <RouterConfig></RouterConfig>
+                      </CSSTransition>
+                    </TransitionGroup>
+                  )
+                }}>
+                </Route>
+              </div>
+            </div>
           </BrowserRouter>
         </Fragment>
       </Provider>
